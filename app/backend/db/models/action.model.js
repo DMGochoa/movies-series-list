@@ -1,7 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const { USER_TABLE } = require('./user.model');
+const { MODULE_TABLE } = require('./module.model');
 
-const ACTION_TABLE = 'modules';
+const ACTION_TABLE = 'actions';
 
 const ActionSchema = {
   id: {
@@ -14,10 +14,11 @@ const ActionSchema = {
     allowNull: false
   },
   moduleId: {
+    field: 'module_id',
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: USER_TABLE,
+      model: MODULE_TABLE,
       key: 'id'
     },
     onUpdate: 'CASCADE',
@@ -27,7 +28,9 @@ const ActionSchema = {
 
 class Action extends Model {
   static associate(models) {
-    this.belongsTo(models.Module, { foreignKey: 'moduleId', as: 'module' });
+    this.belongsTo(models.Module, {
+      as: 'module',
+    });
   }
 
   static config(sequelize) {
