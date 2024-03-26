@@ -1,5 +1,4 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const { ROLE_TABLE } = require('./role.model');
 
 const USER_TABLE = 'users';
 
@@ -32,6 +31,10 @@ class User extends Model {
   static associate(models) {
     this.belongsTo(models.Role, {
       as: 'role',
+    });
+    this.hasMany(models.AudioVisualProductList, {
+      foreignKey: 'userId',
+      as: 'lists'
     });
   }
 

@@ -11,7 +11,13 @@ const ModuleSchema = {
   name: {
     type: DataTypes.STRING,
     allowNull: false
-  }
+  },
+  createdAt: {
+    field: 'created_at',
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW
+  },
 };
 
 class Module extends Model {
