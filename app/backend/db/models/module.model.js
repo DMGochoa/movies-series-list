@@ -22,7 +22,6 @@ const ModuleSchema = {
 
 class Module extends Model {
   static associate(models) {
-    // define association here
     this.hasMany(models.Action,
       {
         foreignKey: 'moduleId',
