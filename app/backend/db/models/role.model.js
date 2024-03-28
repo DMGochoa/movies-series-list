@@ -1,8 +1,8 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const MODULE_TABLE = 'modules';
+const ROLE_TABLE = 'roles';
 
-const ModuleSchema = {
+const RoleSchema = {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -20,24 +20,29 @@ const ModuleSchema = {
   },
 };
 
-class Module extends Model {
+class Role extends Model {
   static associate(models) {
     // define association here
-    this.hasMany(models.Action,
-      {
-        foreignKey: 'moduleId',
-        as: 'actions'
-      });
+    this.belongsToMany(models.Action, {
+      through: models.RoleAction,
+      as: 'roleactions',
+      foreignKey: 'roleId',
+      otherKey: 'actionId'
+    });
+    this.hasMany(models.User, {
+      foreignKey: 'roleId',
+      as: 'users'
+    });
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: MODULE_TABLE,
-      modelName: 'Module',
+      tableName: ROLE_TABLE,
+      modelName: 'Role',
       timestamps: false
     }
   }
 }
 
-module.exports = { MODULE_TABLE, ModuleSchema, Module }
+module.exports = { ROLE_TABLE, RoleSchema, Role }
