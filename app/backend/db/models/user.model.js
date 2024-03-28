@@ -1,4 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
+const { ROLE_TABLE } = require('./role.model');
 
 const USER_TABLE = 'users';
 
@@ -23,7 +24,13 @@ const UserSchema = {
   roleId: {
     field: 'role_id',
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    references: {
+      model: ROLE_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
   }
 };
 
@@ -32,7 +39,8 @@ class User extends Model {
     this.belongsTo(models.Role, {
       as: 'role',
     });
-    this.hasMany(models.AudioVisualProductList, {
+    this.hasMany(models.AudioVisualProductList,
+    {
       foreignKey: 'userId',
       as: 'lists'
     });

@@ -43,7 +43,7 @@ class AudioVisualProductList extends Model {
     return {
       sequelize,
       tableName: AUDIO_VISUAL_PRODUCT_LIST_TABLE,
-      modelName: 'audiovisualproductlist',
+      modelName: 'AudioVisualProductList',
       timestamps: false
     }
   }
