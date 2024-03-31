@@ -1,7 +1,11 @@
 const { models } = require('../libs/sequelize');
-const boom = require('@hapi/boom');
+const verifyExistence = require('../utils/verification');
 
 class ModuleService {
+  constructor() {
+    this.notFoundMessage = 'Module not found';
+  }
+
   async createModule(data) {
     const newModule = await models.Module.create(data);
     return newModule;
@@ -9,17 +13,13 @@ class ModuleService {
 
   async findAllModules() {
     const modules = await models.Module.findAll();
-    if (!modules || modules.length === 0) {
-      throw boom.notFound('Modules not found');
-    }
+    verifyExistence(modules, this.notFoundMessage, modules.length === 0);
     return modules;
   }
 
   async findModuleById(id) {
     const module = await models.Module.findByPk(id);
-    if (!module) {
-      throw boom.notFound('Module not found');
-    }
+    verifyExistence(module, this.notFoundMessage);
     return module;
   }
 
